@@ -922,8 +922,11 @@
         const w = (val / max * 100).toFixed(1);
         const bg = colors[name] || OTHER;
         const isInne = name.startsWith('Inne');
-        return '<div class="chart-row' + (isInne ? ' row-tooltip' : '') + '">' +
-          (isInne ? inneTooltip : '') +
+        const pct = (val / total * 100).toFixed(1);
+        const tooltip = isInne ? inneTooltip
+          : '<span class="tooltip-box">' + name + ': ' + val + ' (' + pct + '%)</span>';
+        return '<div class="chart-row row-tooltip">' +
+          tooltip +
           '<span class="chart-country">' + name + '</span>' +
           '<div class="chart-bar-wrap"><div class="chart-bar" style="width:0;background:' + bg + '" data-w="' + w + '"></div></div>' +
           '<span class="chart-val">' + val + '</span>' +

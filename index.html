@@ -989,19 +989,15 @@
       } else {
         segs = ['silver','gold','platinum','diamond'].map(r => {
           const pct = (d[r] / total * 100).toFixed(1);
-          const label = r === 'diamond' ? 'Diamond+' : r.charAt(0).toUpperCase() + r.slice(1);
-          return '<div class="stacked-seg ' + r + '" data-sw="' + pct + '" title="' + label + ': ' + d[r] + '"></div>';
+          return '<div class="stacked-seg ' + r + '" data-sw="' + pct + '"></div>';
         }).join('');
       }
-      const tooltip = d.name === 'Inne'
-        ? '<span class="tooltip-box">' +
-          '17 pozostałych krajów:<br>' +
-          'Silver: ~' + d.silver + ', Gold: ' + d.gold + ',<br>' +
-          'Platinum: ' + d.platinum + ', Diamond+: ' + d.diamond +
-          '</span>'
-        : '';
-      const rowClass = tooltip ? ' row-tooltip' : '';
-      return '<div class="stacked-row' + rowClass + '">' +
+      const segLabels = ['silver','gold','platinum','diamond'].map(r => {
+        const label = r === 'diamond' ? 'Diamond+' : r.charAt(0).toUpperCase() + r.slice(1);
+        return label + ': ' + (r === 'silver' ? '~' : '') + d[r];
+      }).join(', ');
+      const tooltip = '<span class="tooltip-box">' + d.name + ': ' + segLabels + '</span>';
+      return '<div class="stacked-row row-tooltip">' +
         tooltip +
         '<span class="stacked-country">' + d.name + '</span>' +
         '<div style="width:' + barW + '%"><div class="stacked-bar">' + segs + '</div></div>' +

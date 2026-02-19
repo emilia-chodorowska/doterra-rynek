@@ -446,7 +446,6 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
         <img src="logo.png" alt="Aromagic">
-        <span>Aromagic</span>
       </a>
       <div class="nav-links">
         <a href="#company">Firma</a>
@@ -561,12 +560,12 @@
 
       <div class="stacked-legend">
         <div class="stacked-legend-item"><span class="stacked-legend-dot" style="background:#90CAF9"></span> Silver (est.)</div>
-        <div class="stacked-legend-item"><span class="stacked-legend-dot" style="background:#FFD54F"></span> Gold</div>
+        <div class="stacked-legend-item"><span class="stacked-legend-dot" style="background:#FFD54F"></span> Gold (est.)</div>
         <div class="stacked-legend-item"><span class="stacked-legend-dot" style="background:#CE93D8"></span> Platinum</div>
         <div class="stacked-legend-item"><span class="stacked-legend-dot" style="background:#7E57C2"></span> Diamond+</div>
       </div>
 
-      <p class="note">Silver: estymacja z analizy nazwisk (±15-20%). Gold/Platinum/Diamond+: dane pewne z oficjalnych stron doTERRA.</p>
+      <p class="note">Silver/Gold: estymacja z analizy nazwisk (Silver ±15-20%, Gold ±10-15%). Platinum/Diamond+: dane pewne z oficjalnych stron doTERRA.</p>
     </div>
   </section>
 
@@ -619,7 +618,7 @@
           </tfoot>
         </table>
       </div>
-      <p class="note">Dane Diamond i Blue Diamond — weryfikacja 262 nazwisk (każde przypisane do jednego kraju, bez overlap). Gold/Platinum — ze stron doTERRA per kraj (~85-90% pewność). Razem = Gold+ per kraj (701 + 252 + 284 = 1237).</p>
+      <p class="note">Diamond/Blue Diamond: weryfikacja 262 nazwisk (każde przypisane do jednego kraju). Platinum: weryfikacja 252 nazwisk (~90% pewność). Gold: estymacja z analizy 701 nazwisk (~85% pewność). Razem = Gold+ per kraj (701 + 252 + 284 = 1237).</p>
     </div>
   </section>
 
@@ -739,7 +738,7 @@
           </tfoot>
         </table>
       </div>
-      <p class="note">Silver: estymacja na podstawie analizy 1920 nazwisk (~85% pewność). Gold+: dane z oficjalnych stron doTERRA (Gold ~85-90%, Platinum ~90%, Diamond+ 100% pewność).</p>
+      <p class="note">Silver: estymacja z analizy 1920 nazwisk (~85% pewność). Gold: estymacja z analizy 701 nazwisk (~85% pewność). Platinum: weryfikacja 252 nazwisk (~90%). Diamond+: weryfikacja 284 nazwisk (100%).</p>
     </div>
   </section>
 
@@ -836,8 +835,8 @@
     const datasets = {
       gold: {
         label: 'Rozkład Gold+',
-        desc: '1237 liderów Gold+. Dane z oficjalnych stron doTERRA + weryfikacja nazwisk.',
-        note: 'Źródło: doterra.com/ME/en_ME — strony Recognition. Gold: weryfikacja 701 nazwisk. Platinum: weryfikacja 252 nazwisk. Diamond+: weryfikacja 284 nazwisk. Dane pobrane luty 2026.',
+        desc: '1237 liderów Gold+. Gold: estymacja z nazwisk. Platinum/Diamond+: dane zweryfikowane.',
+        note: 'Źródło: doterra.com/ME/en_ME — strony Recognition. Gold: estymacja z 701 nazwisk (~85%). Platinum: weryfikacja 252 nazwisk (~90%). Diamond+: weryfikacja 284 nazwisk (100%). Luty 2026.',
         data: [
           ['Niemcy',412],['Rumunia',238],['Węgry',91],['Polska',78],
           ['Włochy',60],['Szwajcaria',55],['Francja',46],['Bułgaria',33],
@@ -873,7 +872,7 @@
       silver: {
         label: 'Rozkład Silver+',
         desc: '~3157 liderów Silver+.',
-        note: 'Silver: analiza 1920 nazwisk (±10-15%). Gold+: dane pewne (weryfikacja nazwisk). Źródło: doterra.com/ME/en_ME. Luty 2026.',
+        note: 'Silver: estymacja z 1920 nazwisk (±10-15%). Gold: estymacja z 701 nazwisk (~85%). Platinum/Diamond+: dane zweryfikowane. Źródło: doterra.com/ME/en_ME. Luty 2026.',
         data: [
           ['Niemcy',1059],['Rumunia',647],['Węgry',256],['Polska',176],
           ['Włochy',151],['Szwajcaria',129],['Francja',115],['Austria',91],
@@ -990,14 +989,15 @@
       } else {
         segs = ['silver','gold','platinum','diamond'].map(r => {
           const pct = (d[r] / total * 100).toFixed(1);
-          return '<div class="stacked-seg ' + r + '" data-sw="' + pct + '" title="' + r.charAt(0).toUpperCase() + r.slice(1) + ': ' + d[r] + '"></div>';
+          const label = r === 'diamond' ? 'Diamond+' : r.charAt(0).toUpperCase() + r.slice(1);
+          return '<div class="stacked-seg ' + r + '" data-sw="' + pct + '" title="' + label + ': ' + d[r] + '"></div>';
         }).join('');
       }
       const tooltip = d.name === 'Inne'
         ? '<span class="tooltip-box">' +
-          'Hiszpania (~31), Belgia (~19), Dania (~13),<br>' +
-          'Mołdawia (~12), Słowenia (~11), Cypr (~7),<br>' +
-          '~11 inn. (~37)' +
+          '17 pozostałych krajów:<br>' +
+          'Silver: ~' + d.silver + ', Gold: ' + d.gold + ',<br>' +
+          'Platinum: ' + d.platinum + ', Diamond+: ' + d.diamond +
           '</span>'
         : '';
       const rowClass = tooltip ? ' row-tooltip' : '';
